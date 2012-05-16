@@ -6,8 +6,8 @@ default.gdash.url = "https://github.com/ripienaar/gdash/tarball/master"
 # WARN: pull in attributes from ANOTHER COOKBOOK
 # TODO: put this in a databag ?
 ####
-include_attribute "graphite::graphite"
-default.gdash.graphite_url = "http://#{ipaddress}:#{graphite[:listen_port]}"
+include_attribute "graphite::web"
+default.gdash.graphite_url = "http://#{node[:graphite][:web][:interface]}:#{node[:graphite][:web][:port]}"
 ####
 
 default.gdash.templatedir = "/srv/gdash/graph_templates"
