@@ -6,6 +6,7 @@ default.gdash.url = "https://github.com/ripienaar/gdash/tarball/master"
 # WARN: pull in attributes from ANOTHER COOKBOOK
 # TODO: put this in a databag ?
 ####
+include_attribute "graphite::whisper"
 include_attribute "graphite::web"
 default.gdash.graphite_url = "http://#{node['graphite']['web']['host']}:#{node['graphite']['web']['port']}"
 ####
@@ -20,7 +21,7 @@ default.gdash.title = "Dashboard"
 default.gdash.prefix = nil
 default.gdash.refresh_rate = 60
 default.gdash.columns = 2
-default.gdash.graphite_whisperdb = "/opt/graphite/storage/whisper"
+default.gdash.graphite_whisperdb = node['graphite']['whisper']['data_dir']
 default.gdash.port = 9292
 default.gdash.interface = node[:ipaddress]
 default.gdash.categories = []
