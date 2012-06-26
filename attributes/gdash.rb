@@ -7,7 +7,7 @@ default.gdash.url = "https://github.com/ripienaar/gdash/tarball/master"
 # TODO: put this in a databag ?
 ####
 include_attribute "graphite::web"
-default.gdash.graphite_url = "http://#{node[:graphite][:web][:interface]}:#{node[:graphite][:web][:port]}"
+default.gdash.graphite_url = "http://#{node['graphite']['web']['host']}:#{node['graphite']['web']['port']}"
 ####
 
 default.gdash.templatedir = "/srv/gdash/graph_templates"
