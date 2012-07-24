@@ -14,7 +14,6 @@ Requirements
 ## Cookbooks
 
  * build-essentials
- * runit
 
 Attributes
 ==========

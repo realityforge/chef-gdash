@@ -98,5 +98,14 @@ unicorn_config '/etc/unicorn/gdash.app' do
   group 'root'
 end
 
-runit_service "gdash"
+template "/etc/init/gdash.conf" do
+  source "gdash-upstart.conf.erb"
+  mode "0644"
+  cookbook 'gdash'
+end
 
+service "gdash" do
+  provider Chef::Provider::Service::Upstart
+  supports :start => true, :restart => true, :stop => true, :status => true
+  action [:enable, :start]
+end
