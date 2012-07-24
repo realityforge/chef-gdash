@@ -12,6 +12,7 @@ default.gdash.graphite_url = "http://#{node['graphite']['web']['host']}:#{node['
 ####
 
 default.gdash.templatedir = "/srv/gdash/graph_templates"
+include_attribute "apache2::default"
 default.gdash.owner = node['apache']['user']
 default.gdash.group = node['apache']['group']
 default.gdash.basic_auth = false
