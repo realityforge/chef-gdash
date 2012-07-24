@@ -89,7 +89,7 @@ template File.join(node.gdash.base, "config", "gdash.yaml") do
 end
 
 unicorn_config '/etc/unicorn/gdash.app' do
-  listen "\"#{node[:gdash][:interface]}:#{node[:gdash][:port]}\"" => {:backlog => 100}
+  listen "#{node[:gdash][:interface]}:#{node[:gdash][:port]}" => {:backlog => 100}
   working_directory node.gdash.base
   worker_timeout 60
   preload_app false
