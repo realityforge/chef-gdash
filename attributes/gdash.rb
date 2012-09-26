@@ -27,3 +27,23 @@ default.gdash.port = 9292
 default.gdash.interface = node[:ipaddress]
 default.gdash.categories = []
 default.gdash.dashboards = Mash.new
+default.gdash.interval_filters = [
+    { :label => 'Last Hour',
+      :from => '-1hour',
+      :to => 'now' },
+    { :label => 'Last Day',
+      :from => '-1day' },
+    { :label => 'Last Week',
+      :from => '-1week' },
+    { :label => 'Last Month',
+      :from => '-1month' },
+    { :label => 'Last Year',
+      :from => '-1year' }
+]
+default.gdash.intervals = [
+    [ "-1hour", "1 hour" ],
+    [ "-2hour", "2 hour" ],
+    [ "-1day", "1 day" ],
+    [ "-1month", "1 month" ],
+    [ "-1year", "1 year" ]
+]
