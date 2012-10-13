@@ -25,28 +25,38 @@ end
 
 gem_package "bundler"
 
+# we set these attributes here as 'normal' attributes because include_attribute doesn't
+# take into account attributes set via environments or roles
+node.gdash.graphite_url = "http://#{node['graphite']['web']['host']}:#{node['graphite']['web']['port']}"
+node.gdash.graphite_whisperdb = node['graphite']['whisper']['data_dir']
+node.gdash.owner = node['apache']['user']
+node.gdash.group = node['apache']['group']
+
+gdash_owner = node.gdash.owner
+gdash_group = node.gdash.group
+
 remote_file node.gdash.tarfile do
   mode "00666"
-  owner "www-data"
-  group "www-data"
+  owner gdash_owner
+  group gdash_group
   source node.gdash.url
   action :create_if_missing
 end
 
 directory node.gdash.base do
-  owner "www-data"
-  group "www-data"
+  owner gdash_owner
+  group gdash_group
 end
 
 directory File.join(node.gdash.base, "templates") do
-  owner "www-data"
-  group "www-data"
+  owner gdash_owner
+  group gdash_group
 end
 
 execute "bundle" do
   command "bundle install --binstubs #{File.join(node.gdash.base, 'bin')} --path #{File.join(node.gdash.base, 'vendor', 'bundle')}"
-  user "www-data"
-  group "www-data"
+  user gdash_owner
+  group gdash_group
   cwd node.gdash.base
   creates File.join(node.gdash.base, "bin")
   action :nothing
@@ -76,15 +86,15 @@ end
 execute "gdash: untar" do
   command "tar zxf #{node.gdash.tarfile} -C #{node.gdash.base} --strip-components=1"
   creates File.join(node.gdash.base, "Gemfile.lock")
-  user "www-data"
-  group "www-data"
+  user gdash_owner
+  group gdash_group
   notifies :create, resources(:ruby_block => "bundle_unicorn"), :immediately
   notifies :delete, resources(:directory => File.join(node.gdash.base, 'graph_templates', 'dashboards')), :immediately
 end
 
 template File.join(node.gdash.base, "config", "gdash.yaml") do
-  owner "www-data"
-  group "www-data"
+  owner gdash_owner
+  group gdash_group
   notifies :restart, "service[gdash]"
 end
 
