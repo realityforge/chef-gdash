@@ -25,6 +25,13 @@ end
 
 gem_package "bundler"
 
+# We set these attributes here rather than in attributes files as it gives roles and environments the chance
+# to override the attributes
+node.override.gdash.graphite_url = "http://#{node['graphite']['web']['host']}:#{node['graphite']['web']['port']}" unless node.gdash.graphite_url
+node.override.gdash.graphite_whisperdb = node['graphite']['whisper']['data_dir'] unless node.gdash.graphite_whisperdb
+node.override.gdash.owner = node['apache']['user'] unless node.gdash.owner
+node.override.gdash.group = node['apache']['group'] unless node.gdash.group
+
 gdash_owner = node.gdash.owner
 gdash_group = node.gdash.group
 
