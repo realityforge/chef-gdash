@@ -1,9 +1,6 @@
 require 'yaml'
 
 def load_current_resource
-  node.include_attribute "gdash::gdash"
-  node.include_recipe "gdash::default"
-
   @dashboard_dir = ::File.join(node.gdash.templatedir,
                              new_resource.category,
                              new_resource.name)
@@ -48,5 +45,4 @@ action :delete do
   end
 
   new_resource.updated_by_last_action(true)
-
 end
