@@ -10,3 +10,6 @@ depends "graphite"
 depends "unicorn"
 
 suggests "iptables"
+
+# Required for apache_site recipe
+suggests "apache2"
