@@ -6,7 +6,12 @@ def load_current_resource
   )
 end
 
-action :create do
+notifying_action :create do
+  service 'gdash' do
+    provider Chef::Provider::Service::Upstart
+    supports :start => true, :restart => true, :stop => true, :status => true
+    action :nothing
+  end
 
   @dashboard_dir.sub("#{node.gdash.templatedir}/", '').split('/').inject([node.gdash.templatedir]){|memo,val|
     memo.push(::File.join(memo.last, val))
@@ -15,7 +20,7 @@ action :create do
       owner node.gdash.owner
       group node.gdash.group
       recursive true
-      notifies :restart, resources(:service => 'gdash'), :delayed
+      notifies :restart, 'service[gdash]', :delayed
     end
   end
 
@@ -42,17 +47,17 @@ action :create do
     )
     action :create
   end
-
-  new_resource.updated_by_last_action(true)
-
 end
 
-action :delete do
+notifying_action :delete do
+  service 'gdash' do
+    provider Chef::Provider::Service::Upstart
+    supports :start => true, :restart => true, :stop => true, :status => true
+    action :nothing
+  end
 
   file ::File.join(@dashboard_dir, "#{new_resource.name}.graph") do
     action :delete
+    notifies :restart, 'service[gdash]', :delayed
   end
-
-  new_resource.updated_by_last_action(true)
-
 end
