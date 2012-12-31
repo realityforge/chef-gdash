@@ -70,7 +70,7 @@ ruby_block 'bundle_unicorn' do
     gemfile.insert_line_if_no_match(/unicorn/, 'gem "unicorn"')
     gemfile.write_file
   end
-  notifies :run, resources(:execute => 'bundle'), :immediately
+  notifies :run, 'execute[bundle]', :immediately
   not_if do
     File.exists?(File.join(node['gdash']['base'], 'Gemfile')) &&
     File.read(File.join(node['gdash']['base'], 'Gemfile')).include?('unicorn')
@@ -88,8 +88,8 @@ execute 'gdash: untar' do
   creates File.join(node['gdash']['base'], 'Gemfile.lock')
   user gdash_owner
   group gdash_group
-  notifies :create, resources(:ruby_block => 'bundle_unicorn'), :immediately
-  notifies :delete, resources(:directory => File.join(node['gdash']['base'], 'graph_templates', 'dashboards')), :immediately
+  notifies :create, 'ruby_block[bundle_unicorn]', :immediately
+  notifies :delete, "directory[#{File.join(node['gdash']['base'], 'graph_templates', 'dashboards')}]", :immediately
 end
 
 template File.join(node['gdash']['base'], 'config', 'gdash.yaml') do

@@ -1,4 +1,4 @@
-include_recipe "gdash::default"
+include_recipe 'gdash::default'
 
 node['gdash']['dashboards'].each_pair do |dashboard_name, dashboard_config|
 
@@ -48,7 +48,7 @@ node['gdash']['dashboards'].each_pair do |dashboard_name, dashboard_config|
       file graph_file do
         action :delete
         backup false
-        notifies :restart, resources(:service => 'gdash'), :delayed
+        notifies :restart, 'service[gdash]', :delayed
       end
     end
   end if File.exist?(template_dir)
@@ -66,7 +66,7 @@ categories = node['gdash']['dashboards'].values.collect { |dashboard_config| das
           directory dashboard_dir do
             action :delete
             recursive true
-            notifies :restart, resources(:service => 'gdash'), :delayed
+            notifies :restart, 'service[gdash]', :delayed
           end
         end
       end
@@ -74,7 +74,7 @@ categories = node['gdash']['dashboards'].values.collect { |dashboard_config| das
       directory category_dir do
         action :delete
         recursive true
-        notifies :restart, resources(:service => 'gdash'), :delayed
+        notifies :restart, 'service[gdash]', :delayed
       end
     end
   end
