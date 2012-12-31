@@ -1,7 +1,7 @@
 require 'yaml'
 
 def load_current_resource
-  @dashboard_dir = ::File.join(node.gdash.templatedir,
+  @dashboard_dir = ::File.join(node['gdash']['templatedir'],
                              new_resource.category,
                              new_resource.name)
 
@@ -15,20 +15,20 @@ notifying_action :create do
     action :nothing
   end
 
-  @dashboard_dir.sub("#{node.gdash.templatedir}/", '').split('/').inject([node.gdash.templatedir]){|memo,val|
+  @dashboard_dir.sub("#{node['gdash']['templatedir']}/", '').split('/').inject([node['gdash']['templatedir']]){|memo,val|
     memo.push(::File.join(memo.last, val))
   }.each do |dir_path|
     directory dir_path do
-      owner node.gdash.owner
-      group node.gdash.group
+      owner node['gdash']['owner']
+      group node['gdash']['group']
       recursive true
       notifies :restart, 'service[gdash]', :delayed
     end
   end
 
   file @dashboard_yaml do
-    owner node.gdash.owner
-    group node.gdash.group
+    owner node['gdash']['owner']
+    group node['gdash']['group']
     content YAML.dump(
       :name => new_resource.display_name || new_resource.name,
       :description => new_resource.description

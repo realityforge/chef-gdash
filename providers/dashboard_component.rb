@@ -1,6 +1,6 @@
 def load_current_resource
   @dashboard_dir = ::File.join(
-    node.gdash.templatedir,
+    node['gdash']['templatedir'],
     new_resource.dashboard_category,
     new_resource.dashboard_name
   )
@@ -13,12 +13,12 @@ notifying_action :create do
     action :nothing
   end
 
-  @dashboard_dir.sub("#{node.gdash.templatedir}/", '').split('/').inject([node.gdash.templatedir]){|memo,val|
+  @dashboard_dir.sub("#{node['gdash']['templatedir']}/", '').split('/').inject([node['gdash']['templatedir']]){|memo,val|
     memo.push(::File.join(memo.last, val))
   }.each do |dir_path|
     directory dir_path do
-      owner node.gdash.owner
-      group node.gdash.group
+      owner node['gdash']['owner']
+      group node['gdash']['group']
       recursive true
       notifies :restart, 'service[gdash]', :delayed
     end
@@ -36,8 +36,8 @@ notifying_action :create do
     }.compact.flatten
     template_hash = Hash[*template_hash]
 
-    owner node.gdash.owner
-    group node.gdash.group
+    owner node['gdash']['owner']
+    group node['gdash']['group']
     mode 0644
     variables(
       :base_variables => template_hash,
