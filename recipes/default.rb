@@ -98,12 +98,22 @@ template File.join(node['gdash']['base'], 'config', 'gdash.yaml') do
   notifies :restart, 'service[gdash]'
 end
 
+directory "#{node['gdash']['log_dir']}" do
+  owner gdash_owner
+  group gdash_group
+  mode '0640'  
+  recursive true
+  action :create
+end
+
 unicorn_config '/etc/unicorn/gdash.app' do
   listen "#{node['gdash']['interface']}:#{node['gdash']['port']}" => {:backlog => 100}
   working_directory node['gdash']['base']
   worker_timeout 60
   preload_app false
   worker_processes 2
+  stderr_path "#{node['gdash']['log_dir']}/#{node['gdash']['stderr_file']}"
+  stdout_path "#{node['gdash']['log_dir']}/#{node['gdash']['stdout_file']}"
   owner 'root'
   group 'root'
 end
