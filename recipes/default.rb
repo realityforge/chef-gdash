@@ -98,7 +98,7 @@ template File.join(node['gdash']['base'], 'config', 'gdash.yaml') do
   notifies :restart, 'service[gdash]'
 end
 
-directory "#{node['gdash']['log_dir']}" do
+directory node['gdash']['log_dir'] do
   owner gdash_owner
   group gdash_group
   mode '0640'  
