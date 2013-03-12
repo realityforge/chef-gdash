@@ -8,7 +8,9 @@ def load_current_resource
   @dashboard_yaml = ::File.join(@dashboard_dir,"dash.yaml")
 end
 
-notifying_action :create do
+use_inline_resources
+
+action :create do
   service 'gdash' do
     provider Chef::Provider::Service::Upstart
     supports :start => true, :restart => true, :stop => true, :status => true
@@ -36,7 +38,7 @@ notifying_action :create do
   end
 end
 
-notifying_action :delete do
+action :delete do
   service 'gdash' do
     provider Chef::Provider::Service::Upstart
     supports :start => true, :restart => true, :stop => true, :status => true

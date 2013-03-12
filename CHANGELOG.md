@@ -1,4 +1,9 @@
+## v0.2.2:
+
+* Change  : Replace the use of cutlery dependency with Chef 11's use_inline_resources method.
+
 ## v0.2.0:
+
 * Change  : Set cookbook name in metadata.
 
 ## v0.1.0:
