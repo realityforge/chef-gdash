@@ -1,3 +1,4 @@
+default['gdash']['rubyversion'] = '1.9.1'
 default['gdash']['tarfile'] = '/usr/src/gdash.tgz'
 default['gdash']['base'] = '/srv/gdash'
 default['gdash']['url'] = 'https://github.com/ripienaar/gdash/tarball/master'

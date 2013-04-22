@@ -20,7 +20,9 @@ include_recipe 'unicorn'
   apt_package pkg
 end
 
-gem_package 'bundler'
+gem_package 'bundler' do
+  gem_binary "/usr/bin/gem#{node['gdash']['rubyversion']}"
+end
 
 # We set these attributes here rather than in attributes files as it gives roles and environments the chance
 # to override the attributes

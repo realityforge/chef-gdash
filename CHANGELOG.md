@@ -1,3 +1,7 @@
+## v0.2.4:
+
+* Change  : Support configuration of the ruby version in use.
+
 ## v0.2.2:
 
 * Change  : Replace the use of cutlery dependency with Chef 11's use_inline_resources method.
