@@ -100,7 +100,7 @@ end
 directory node['gdash']['log_dir'] do
   owner gdash_owner
   group gdash_group
-  mode '0640'  
+  mode 0755  
   recursive true
   action :create
 end
