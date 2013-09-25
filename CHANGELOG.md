@@ -1,4 +1,7 @@
 ## v0.2.4:
+* Enhance : adding apache digest authn option support. Submitted by amamtura
+
+## v0.2.3:
 
 * Change  : Support configuration of the ruby version in use.
 
